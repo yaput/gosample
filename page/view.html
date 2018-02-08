@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>First Program</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="			  crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+</head>
+<body>
+    <h3>Visitor Count : {{ . }}</h3>
+    <div class="container">
+    <table id="table">
+           
+    </table>
+    </div>  
+    <script>
+
+            function ageFormatter(value, row, index, element){
+                if (row.birth_date != ""){
+                    item = row.birth_date.split("T")
+                    dob = new Date(item[0]);
+                    var today = new Date();
+                    var age = Math.floor((today-dob) / (365.25 * 24 * 60 * 60 * 1000));
+                    return age
+                }
+                return "-"
+            }
+            function dateFormatter(value, row,index, element) {
+                if (value == ""){
+                    return '-'
+                }else{
+                    item = value.split("T")
+                    return item[0]
+                }
+                return '';
+            } 
+            $('#table').bootstrapTable({
+                url: "http://localhost:9000/first",
+                search : true,
+                pagination: true,
+                columns: [{
+                    field: 'id',
+                    title: 'Item ID'
+                }, {
+                    field: 'name',
+                    title: 'User Name'
+                }, 
+                {
+                    field: 'msisdn',
+                    title: 'MSISDN'
+                },
+                {
+                    field: 'email',
+                    title: 'Email'
+                },
+                {
+                    field: 'birth_date',
+                    title: 'Birth Date',
+                    formatter : dateFormatter
+                },
+                {
+                    field: 'created_time',
+                    title: 'Created Time',
+                    formatter : dateFormatter
+                },
+                {
+                    field: 'update_time',
+                    title: 'Update Time',
+                    formatter : dateFormatter
+                },
+                {
+                    field: 'user_age',
+                    title: 'User Age',
+                    formatter : ageFormatter
+                },]
+            });
+
+            
+    </script>
+</body>
+</html>
